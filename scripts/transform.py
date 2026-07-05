@@ -21,18 +21,24 @@ api_response= {'latitude': 19.437609,
                                                14.7, 16.0, 17.6, 19.2, 20.4, 21.1, 21.2, 20.9, 20.3, 19.5, 18.8]}}
 
 
-df = pd.DataFrame({
-    'time':api_response['hourly']['time'],
-    'temperature_2m': api_response['hourly']['temperature_2m']
-})
+def transform(api_response:dict) -> pd.DataFrame:
 
-df['time'] = pd.to_datetime(df['time'])
-df['temperature_2m'] = df['temperature_2m'].astype('float')
+    if 'hourly' not in api_response:
+        raise ValueError("No existe la clave 'hourly' en la respuesta de la api")
 
-serie_test = df['time'].is_monotonic_increasing
-print(serie_test)
+    else:
+        df = pd.DataFrame({
+                'time':api_response['hourly']['time'],
+                'temperature_2m': api_response['hourly']['temperature_2m']
+                })
+        df['time'] = pd.to_datetime(df['time'])
+        df['temperature_2m'] = df['temperature_2m'].astype('float')
+        df = df.sort_values(by='time')
+        return df
+        
+if __name__ == '__main__':
+    t_df = transform(api_response)
+    print(t_df.head())
 
-df = df.sort_values(by='time')
 
 
-print(df.head())
