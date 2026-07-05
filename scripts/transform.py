@@ -1,6 +1,6 @@
 import pandas as pd
 
-json = {'latitude': 19.437609, 
+api_response= {'latitude': 19.437609, 
         'longitude': -99.10715, 
         'generationtime_ms': 0.02562999725341797, 
         'utc_offset_seconds': 0, 
@@ -21,6 +21,18 @@ json = {'latitude': 19.437609,
                                                14.7, 16.0, 17.6, 19.2, 20.4, 21.1, 21.2, 20.9, 20.3, 19.5, 18.8]}}
 
 
-df = pd.DataFrame()
+df = pd.DataFrame({
+    'time':api_response['hourly']['time'],
+    'temperature_2m': api_response['hourly']['temperature_2m']
+})
 
-print(json['latitude'])
+df['time'] = pd.to_datetime(df['time'])
+df['temperature_2m'] = df['temperature_2m'].astype('float')
+
+serie_test = df['time'].is_monotonic_increasing
+print(serie_test)
+
+df = df.sort_values(by='time')
+
+
+print(df.head())
