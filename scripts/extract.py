@@ -1,20 +1,22 @@
 import requests
 
 LATITUDE = 19.43
-LONGITUDE = -99.13
-url = f'https://api.open-meteo.com/v1/forecast?latitude={LATITUDE}&longitude={LONGITUDE}&hourly=temperature_2m'
+LONGITUDE = -99.1
 
 
-try:    
+def extract(latitud : float , longitud: float)-> dict:
+    url = f'https://api.open-meteo.com/v1/forecast?latitude={latitud}&longitude={longitud}&hourly=temperature_2m'
+
     response = requests.get(url, timeout=10)
     response.raise_for_status()
     json_response = response.json()
-    print(json_response)
+    return json_response
+        
+ 
     
+if __name__ == '__main__':
+    j_dict = extract(LATITUDE , LONGITUDE)
+    print(j_dict)
 
-except requests.exceptions.HTTPError  as http_err:
-    print('HTTPError : ', http_err)
-except requests.exceptions.RequestException as e :
-    print('A request error ocurred : ', e)
 
 
