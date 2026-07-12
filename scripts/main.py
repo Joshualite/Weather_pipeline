@@ -1,10 +1,12 @@
 from transform import transform
-from extract import extract
+from extract import extract , cities
+from load import load
 
-LATITUDE = 19.43
-LONGITUDE = -99.13
 
 if __name__ == '__main__':
-    raw_data = extract(latitud=LATITUDE,longitud=LONGITUDE)
-    df = transform(raw_data)
+    city = "CDMX"
+    lat , long = cities[city]
+    raw_data = extract(latitud=lat,longitud=long)
+    df = transform(raw_data, city= city)
     print(df.head())
+    load(df=df , table_name= 'WEATHER')

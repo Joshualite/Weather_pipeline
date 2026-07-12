@@ -1,7 +1,9 @@
 import requests
 
-LATITUDE = 19.43
-LONGITUDE = -99.1
+
+
+cities = {"CDMX": (19.43, -99.13),
+    "Guadalajara": (20.67, -103.35)}
 
 
 def extract(latitud : float , longitud: float)-> dict:
@@ -15,7 +17,8 @@ def extract(latitud : float , longitud: float)-> dict:
  
     
 if __name__ == '__main__':
-    j_dict = extract(LATITUDE , LONGITUDE)
+    lat , long = cities["CDMX"]
+    j_dict = extract(lat , long)
     print(j_dict)
 
 

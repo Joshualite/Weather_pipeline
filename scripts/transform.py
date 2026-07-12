@@ -21,7 +21,7 @@ api_response= {'latitude': 19.437609,
                                                14.7, 16.0, 17.6, 19.2, 20.4, 21.1, 21.2, 20.9, 20.3, 19.5, 18.8]}}
 
 
-def transform(api_response:dict) -> pd.DataFrame:
+def transform(api_response:dict , city: str) -> pd.DataFrame:
 
     if 'hourly' not in api_response:
         raise ValueError("No existe la clave 'hourly' en la respuesta de la api")
@@ -29,15 +29,20 @@ def transform(api_response:dict) -> pd.DataFrame:
     else:
         df = pd.DataFrame({
                 'time':api_response['hourly']['time'],
-                'temperature_2m': api_response['hourly']['temperature_2m']
+                'temperature_2m': api_response['hourly']['temperature_2m'],
+                'latitude':api_response['latitude'],
+                'longitude':api_response['longitude'],
+                'city': city
                 })
         df['time'] = pd.to_datetime(df['time'])
         df['temperature_2m'] = df['temperature_2m'].astype('float')
+        df['latitude'] = df['latitude'].astype('float')
+        df['longitude'] = df['longitude'].astype('float')
         df = df.sort_values(by='time')
         return df
         
 if __name__ == '__main__':
-    t_df = transform(api_response)
+    t_df = transform(api_response , city="CDMX")
     print(t_df.head())
 
 
