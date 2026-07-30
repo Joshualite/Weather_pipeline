@@ -6,12 +6,15 @@ from transform import transform
 from extract import extract , cities
 
 
+
 load_dotenv()
 user =  os.getenv('POSTGRES_USER')
 password = os.getenv('POSTGRES_PASSWORD')
 db = os.getenv('POSTGRES_DB')
+host = os.getenv('POSTGRES_HOST', 'localhost')
+db_driver =os.getenv('DB_DRIVER','psycopg')
 
-db_conexion = f'postgresql+psycopg://{user}:{password}@localhost:5432/{db}'
+db_conexion = f'postgresql+{db_driver}://{user}:{password}@{host}:5432/{db}'
 
 engine = create_engine(db_conexion)
 

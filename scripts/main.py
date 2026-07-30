@@ -17,8 +17,10 @@ if __name__ == '__main__':
     user =  os.getenv('POSTGRES_USER')
     password = os.getenv('POSTGRES_PASSWORD')
     db = os.getenv('POSTGRES_DB')
+    db_driver = os.getenv('DB_DRIVER')
 
-    db_conexion = f'postgresql+psycopg://{user}:{password}@localhost:5432/{db}'
+    db_conexion = f'postgresql+{db_driver}://{user}:{password}@localhost:5432/{db}'
 
     engine = create_engine(db_conexion)
     load_insert_uniques(df=df , table_name= 'weather', engine=engine)
+    

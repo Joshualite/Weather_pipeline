@@ -62,7 +62,12 @@ services:
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@postgres-airflow:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      _PIP_ADDITIONAL_REQUIREMENTS: "psycopg[binary] pandas requests python-dotenv sqlalchemy"
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_DRIVER: psycopg2
+      _PIP_ADDITIONAL_REQUIREMENTS: "psycopg2-binary pandas requests python-dotenv"
     ports:
       - "8080:8080"
     volumes:
@@ -82,7 +87,12 @@ services:
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@postgres-airflow:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      _PIP_ADDITIONAL_REQUIREMENTS: "psycopg[binary] pandas requests python-dotenv sqlalchemy"
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_DRIVER: psycopg2
+      _PIP_ADDITIONAL_REQUIREMENTS: "psycopg2-binary pandas requests python-dotenv"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scripts:/opt/airflow/scripts
