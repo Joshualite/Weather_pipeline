@@ -23,4 +23,5 @@ if __name__ == '__main__':
 
     engine = create_engine(db_conexion)
     load_insert_uniques(df=df , table_name= 'weather', engine=engine)
+    print('Cargado')
     

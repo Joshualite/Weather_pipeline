@@ -13,7 +13,7 @@ from transform import transform
 from load import load_insert_uniques, engine
 
 def task_extract_fn(**kwargs):
-    city = "CDMX"
+    city = kwargs['params']['city']
     lat, lon = cities[city]
     raw_data = extract(latitud=lat, longitud=lon)  
 
@@ -30,7 +30,9 @@ def task_transform_fn(**kwargs):
     with open(ruta_raw, "r") as f:
         raw_data = json.load(f)  
 
-    df = transform(raw_data, city="CDMX")   
+    
+
+    df = transform(raw_data, city=kwargs['params']['city'])   
 
     ruta_clean = "/tmp/weather_clean.csv"
     df.to_csv(ruta_clean, index=False)   
@@ -58,6 +60,7 @@ with DAG (
     start_date = datetime(2026,7,1),
     schedule = '@daily',
     catchup = False,
+    params = {'city':'CDMX'}
 ) as dag:
 
     task_extract = PythonOperator(
